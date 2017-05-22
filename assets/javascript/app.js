@@ -12,7 +12,7 @@ var questions = {
 	"question3?": {
 		answer: "",
 		picture: ""
-	}
+	},
 	"question4?": {
 		answer: "",
 		picture: ""
@@ -35,6 +35,14 @@ var questions = {
 	}
 };
 
+function startPage() {
+	$("#start-btn").html("<button type='button'>Start</button");
+};
+
+startPage();
+
+});
+
 /* when window loads
 	start button is shown. when user clicks...
 
@@ -49,5 +57,3 @@ var questions = {
 	after all questions finished, show final screen...
 	display correct, incorrect, and unanswered log. 
 	display button that will take you back to questions. */
-	
-});

@@ -1,45 +1,41 @@
 $(document).ready(function() {
 
-var questions = {
-	"question1?": {
-		answer: "",
-		picture: ""
+var triviaGame = {
+	questionsToAsk: {
+		"What is one of Cleveland's nicknames?": {
+			options: ["Forest City", "Crazy Town", "Land of Milk and Honey", "What?"],
+			correctAnswer: "Forest City",
+			picture: "https://giphy.com/gifs/MDJcGiy1WOqOc/html5"
+		}
 	},
-	"question2?": {
-		answer: "",
-		picture: ""
+	correctAnswers: 0,
+	incorrectAnswers: 0,
+	unAnswered:0,
+	time: 0,
+	startPage: function() {
+		$(".start-btn").html("<button type='button'>Start</button");
 	},
-	"question3?": {
-		answer: "",
-		picture: ""
+	startQuiz: function() {
+		var objKeys = Object.keys(triviaGame.questionsToAsk);
+		var timeInterval;
+		time = 30;
+
+		$(".time-countdown").html("Time Remaining: " + time);
+		$(".quiz-question").html(objKeys[0]);
+		$(".option-a-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[0] + "</button>");
+		$(".option-b-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[1] + "</button>");
+		$(".option-c-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[2] + "</button>");
+		$(".option-d-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[3] + "</button>");
+		timeInterval = setTimeout(triviaGame.countDown, 1000);
 	},
-	"question4?": {
-		answer: "",
-		picture: ""
-	},
-	"question5?": {
-		answer: "",
-		picture: ""
-	},
-	"question6?": {
-		answer: "",
-		picture: ""
-	},
-	"question7?": {
-		answer: "",
-		picture: ""
-	},
-	"question8?": {
-		answer: "",
-		picture: ""
+	countDown: function() {
+		time--;
+		$(".time-countdown").html("Time Remaining: " + time);
 	}
 };
 
-function startPage() {
-	$("#start-btn").html("<button type='button'>Start</button");
-};
-
-startPage();
+triviaGame.startPage();
+$(".start-btn").click(triviaGame.startQuiz);
 
 });
 

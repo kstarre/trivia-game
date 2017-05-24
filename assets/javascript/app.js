@@ -1,60 +1,60 @@
 $(document).ready(function() {
 
+var correctTotal = 0;
+var incorrectTotal = 0;
+var unAnswered = 0;
+var time;
+var timeInterval;
+var currentQuestion = 0;
+
 var triviaGame = {
 	questionsToAsk: {
 		"What is one of Cleveland's nicknames?": {
 			options: ["Forest City", "Crazy Town", "Land of Milk and Honey", "Cleveland? Where's that?"],
 			correctAnswer: "Forest City",
-			picture: "https://giphy.com/gifs/MDJcGiy1WOqOc/html5"
+			picture: '<iframe src="https://giphy.com/embed/IzU4wcD554uGc" width="480" height="288" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/studio-ghibli-spirited-away-IzU4wcD554uGc">via GIPHY</a></p>'
 		}
 	},
-	correctTotal: 0,
-	incorrectTotal: 0,
-	unAnswered: 0,
-	time: 0,
-	timeInterval: 0,
 	startPage: function() {
-		$(".start-btn").html("<button type='button'>Start</button");
+		$("#questions-page").hide();
+		$("#totals-page").hide();
 	},
 	startQuiz: function() {
 		var objKeys = Object.keys(triviaGame.questionsToAsk);
 		time = 10;
+		timeInterval = setInterval(triviaGame.countDown, 1000);
 
-		$(".time-countdown").html("Time Remaining: " + time);
-		triviaGame.timeInterval = setInterval(triviaGame.countDown, 1000);
-		$(".quiz-question").html(objKeys[0]);
-		$(".option-a-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[0] + "</button>");
-		$(".option-b-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[1] + "</button>");
-		$(".option-c-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[2] + "</button>");
-		$(".option-d-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[0]].options[3] + "</button>");
+		$("#start-page").hide();
+		$("#questions-page").show();
+		$("#timer").html(time);
+		$(".quiz-question").html(objKeys[currentQuestion]);
+		$("#option-a-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[0]);
+		$("#option-b-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[1]);
+		$("#option-c-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[2]);
+		$("#option-d-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[3]);
 		$(".answer-btn").on("click", function() {
 			triviaGame.stopTime();
-			if ($(this).text() === triviaGame.questionsToAsk[objKeys[0]].correctAnswer) {
+			$(".answer-btn").hide();
+			$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
+			if( $(this).text() === triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer) {
 				$(".correct-incorrect").html("Correct!");
-				triviaGame.correctTotal++;
 			}
 			else {
-				$(".correct-incorrect").html("Sorry! The correct answer was: " + triviaGame.questionsToAsk[objKeys[0]].correctAnswer);
-				triviaGame.incorrectTotal++;
+				$(".correct-incorrect").html("Sorry! The correct answer was: " + triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer);
 			}
 		});
-/*		if (time === 0) {
-			triviaGame.stopTime();
-			$(".correct-incorrect").html("Out of time! The correct answer was: " + triviaGame.questionsToAsk[objKeys[0]].correctAnswer);
-			triviaGame.unAnswered++;
-		};*/
 	},
 	countDown: function() {
 		time--;
-		$(".time-countdown").html("Time Remaining: " + time);
+		$("#timer").html(time);
 	},
 	stopTime: function() {
-		clearInterval(triviaGame.timeInterval);
+		clearInterval(timeInterval);
 	}
 };
 
 triviaGame.startPage();
-$(".start-btn").click(triviaGame.startQuiz);
+$("#start-btn").on("click", triviaGame.startQuiz);
 
 });
 

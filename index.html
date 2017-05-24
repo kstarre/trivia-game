@@ -20,6 +20,7 @@
 	<script src="assets/javascript/app.js"></script>
 </head>
 <body>
+
 	<div class="container">
 
 		<div class="row">
@@ -27,27 +28,75 @@
 				<h1>TRIVIAAAAAA</h1>
 			</div>
 		</div>
+
 		<br />
 		<br />
+
 		<div class="row">
-			<div class="col-md-12 time-countdown start-btn"></div>
+			<div class="col-md-12" id="start-page">
+				<button id="start-btn">Start</button>
+			</div>
 		</div>
+
 		<div class="row">
-			<div class="col-md-12 quiz-question correct-incorrect all-done"></div>
+			<div class="col-md-12" id="questions-page">
+				<div class="row">
+					<div class="col-md-12">
+						<p>Time Remaining: <span id="timer"></span></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 quiz-question correct-incorrect"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12" id="answer-gif"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 answer-btn" id="option-a-btn"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 answer-btn" id="option-b-btn"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 answer-btn" id="option-c-btn"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 answer-btn" id="option-d-btn"></div>
+				</div>
+			</div>
 		</div>
+
 		<div class="row">
-			<div class="col-md-12 option-a-btn answer-btn correct-answer-gif total-correct"></div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 option-b-btn answer-btn total-incorrect"></div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 option-c-btn answer-btn total-unanswered"></div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 option-d-btn answer-btn start-over-btn"></div>
+			<div class="col-md-12" id="totals-page">
+				<div class="row">
+					<div class="col-md-12">
+						<h2>All done! Here's how you did:</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						Correct Answers: <span id="total-correct"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						Incorrect Answers: <span id="total-incorrect"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						Unanswered: <span id="total-unanswered"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<button type="button" id="start-over-btn">Start Over?</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</div>
+
 </body>
 </html>

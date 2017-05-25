@@ -33,7 +33,7 @@ var triviaGame = {
 		"Fill in the blanks! _____ I am your father.": {
 			options: ["Lake", "Yes", "No", "Luke"],
 			correctAnswer: "No",
-			picture: '<iframe src="https://giphy.com/embed/l2JJLshkQIibeNlSw" width="480" height="265" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/starwars-l2JJLshkQIibeNlSw">via GIPHY</a></p>'
+			picture: '<iframe src="https://giphy.com/embed/26FL0ydLDEcARWY0g" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/starwars-darthvader-26FL0ydLDEcARWY0g">via GIPHY</a></p>'
 		},
 		"How does Hannibal Lecter greet Clarice Starling?": {
 			options: ["Hello, Clarice", "Good morning, Clarice", "Good to see you, Clarice", "Good evening, Clarice"],
@@ -47,7 +47,7 @@ var triviaGame = {
 	},
 	startQuiz: function() {
 		objKeys = Object.keys(triviaGame.questionsToAsk);
-		time = 30;
+		time = 20;
 		timeInterval = setInterval(triviaGame.countDown, 1000);
 
 		$("#answer-gif").hide();
@@ -58,23 +58,8 @@ var triviaGame = {
 		$("#option-b-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[1]);
 		$("#option-c-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[2]);
 		$("#option-d-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[3]);
-		$(".answer-btn").on("click", function() {
-			//$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
-			if( $(this).text() === triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer) {
-				triviaGame.stopTime();
-				$(".answer-btn").hide();
-				$(".correct-incorrect").html("Correct!");
-				correctTotal++;
-				triviaGame.enjoyGif();
-			}
-			else {
-				triviaGame.stopTime();
-				$(".answer-btn").hide();
-				$(".correct-incorrect").html("Sorry! The correct answer was: " + triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer);
-				incorrectTotal++;
-				triviaGame.enjoyGif();
-			};
-		});
+		$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
+		$("#answer-gif").hide();
 	},
 	countDown: function() {
 		time--;
@@ -83,7 +68,7 @@ var triviaGame = {
 		if ( time === 0) {
 			triviaGame.stopTime();
 			$(".answer-btn").hide();
-			//$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
+			$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
 			$(".correct-incorrect").html("Time's Up! The correct answer was: " + triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer);
 			unAnswered++;
 			triviaGame.enjoyGif();
@@ -118,16 +103,36 @@ var triviaGame = {
 	}
 };
 
-triviaGame.startPage();
-$("#start-btn").on("click", function() {
-	currentQuestion = 0;
-	$("#start-page").hide();
-	$("#questions-page").show();
-	triviaGame.startQuiz();
-});
-$("#start-over-btn").on("click", triviaGame.startOver);
+	triviaGame.startPage();
+	$("#start-btn").on("click", function() {
+		currentQuestion = 0;
+		$("#start-page").hide();
+		$("#questions-page").show();
+		triviaGame.startQuiz();
+	});
+	$("#start-over-btn").on("click", triviaGame.startOver);
+
+	$(".answer-btn").on("click", function() {
+		$("#answer-gif").show();
+		if( $(this).text() === triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer) {
+			triviaGame.stopTime();
+			$(".answer-btn").hide();
+			$(".correct-incorrect").html("Correct!");
+			correctTotal++;
+			triviaGame.enjoyGif();
+		}
+		else {
+			triviaGame.stopTime();
+			$(".answer-btn").hide();
+			$(".correct-incorrect").html("Sorry! The correct answer was: " + triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer);
+			incorrectTotal++;
+			triviaGame.enjoyGif();
+		};
+	});
 
 });
+
+
 
 // if user clicks on button, stop time, compare answers, show result and picture
 

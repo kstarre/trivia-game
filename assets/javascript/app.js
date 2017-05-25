@@ -6,13 +6,39 @@ var unAnswered = 0;
 var time;
 var timeInterval;
 var currentQuestion = 0;
+var objKeys;
 
 var triviaGame = {
 	questionsToAsk: {
-		"What is one of Cleveland's nicknames?": {
-			options: ["Forest City", "Crazy Town", "Land of Milk and Honey", "Cleveland? Where's that?"],
-			correctAnswer: "Forest City",
-			picture: '<iframe src="https://giphy.com/embed/IzU4wcD554uGc" width="480" height="288" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/studio-ghibli-spirited-away-IzU4wcD554uGc">via GIPHY</a></p>'
+		"Fill in the blanks! _____ _____  on the wall, who's the fairest of them all?": {
+			options: ["Great mirror", "Mirror mirror", "Fancy mirror", "Magic mirror"],
+			correctAnswer: "Magic mirror",
+			picture: '<iframe src="https://giphy.com/embed/UWCP8oDjYplT2" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/snow-white-UWCP8oDjYplT2">via GIPHY</a></p>'
+		},
+		"What does Dr. Frankenstein yell when he sees his experiment was successful?": {
+			options: ["I did it!", "He's alive!", "It's alive!", "Eureka!"],
+			correctAnswer: "It's alive!",
+			picture: '<iframe src="https://giphy.com/embed/iSBKHcm0qEmZ2" width="420" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/frankenstein-iSBKHcm0qEmZ2">via GIPHY</a></p>'
+		},
+		"What does Dorothy say when she arrives in Oz?": {
+			options: ["Toto, I've a feeling we're not in Kansas anymore", "Toto, we're not in Kansas anymore", "Toto, I don't think we're in Kansas anymore", "Toto, I think we're lost"],
+			correctAnswer: "Toto, I've a feeling we're not in Kansas anymore",
+			picture: '<iframe src="https://giphy.com/embed/cjDoRld4xH83K" width="480" height="335" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/suprised-wizard-of-oz-cjDoRld4xH83K">via GIPHY</a></p>'
+		},
+		"Fill in the blanks! _____ gonna need a bigger boat!": {
+			options: ["You are", "You're", "We are", "We're"],
+			correctAnswer: "You're",
+			picture: '<iframe src="https://giphy.com/embed/GNc2n90LyVFyE" width="480" height="254" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/jaws-gifs-GNc2n90LyVFyE">via GIPHY</a></p>'
+		},
+		"Fill in the blanks! _____ I am your father.": {
+			options: ["Lake", "Yes", "No", "Luke"],
+			correctAnswer: "No",
+			picture: '<iframe src="https://giphy.com/embed/l2JJLshkQIibeNlSw" width="480" height="265" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/starwars-l2JJLshkQIibeNlSw">via GIPHY</a></p>'
+		},
+		"How does Hannibal Lecter greet Clarice Starling?": {
+			options: ["Hello, Clarice", "Good morning, Clarice", "Good to see you, Clarice", "Good evening, Clarice"],
+			correctAnswer: "Good evening, Clarice",
+			picture: '<iframe src="https://giphy.com/embed/CSIzl30ynrub6" width="480" height="258" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/horror-hannibal-lecter-CSIzl30ynrub6">via GIPHY</a></p>'
 		}
 	},
 	startPage: function() {
@@ -20,41 +46,86 @@ var triviaGame = {
 		$("#totals-page").hide();
 	},
 	startQuiz: function() {
-		var objKeys = Object.keys(triviaGame.questionsToAsk);
-		time = 10;
+		objKeys = Object.keys(triviaGame.questionsToAsk);
+		time = 30;
 		timeInterval = setInterval(triviaGame.countDown, 1000);
 
-		$("#start-page").hide();
-		$("#questions-page").show();
+		$("#answer-gif").hide();
+		$(".answer-btn").show();
 		$("#timer").html(time);
 		$(".quiz-question").html(objKeys[currentQuestion]);
-		$("#option-a-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[0]);
-		$("#option-b-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[1]);
-		$("#option-c-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[2]);
-		$("#option-d-btn").html("<button>" + triviaGame.questionsToAsk[objKeys[currentQuestion]].options[3]);
+		$("#option-a-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[0]);
+		$("#option-b-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[1]);
+		$("#option-c-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[2]);
+		$("#option-d-btn").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].options[3]);
 		$(".answer-btn").on("click", function() {
-			triviaGame.stopTime();
-			$(".answer-btn").hide();
-			$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
+			//$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
 			if( $(this).text() === triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer) {
+				triviaGame.stopTime();
+				$(".answer-btn").hide();
 				$(".correct-incorrect").html("Correct!");
+				correctTotal++;
+				triviaGame.enjoyGif();
 			}
 			else {
+				triviaGame.stopTime();
+				$(".answer-btn").hide();
 				$(".correct-incorrect").html("Sorry! The correct answer was: " + triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer);
-			}
+				incorrectTotal++;
+				triviaGame.enjoyGif();
+			};
 		});
 	},
 	countDown: function() {
 		time--;
 		$("#timer").html(time);
+
+		if ( time === 0) {
+			triviaGame.stopTime();
+			$(".answer-btn").hide();
+			//$("#answer-gif").html(triviaGame.questionsToAsk[objKeys[currentQuestion]].picture);
+			$(".correct-incorrect").html("Time's Up! The correct answer was: " + triviaGame.questionsToAsk[objKeys[currentQuestion]].correctAnswer);
+			unAnswered++;
+			triviaGame.enjoyGif();
+		};
 	},
 	stopTime: function() {
 		clearInterval(timeInterval);
+	},
+	enjoyGif: function() {
+		setTimeout(function() {
+			currentQuestion++;
+			if( currentQuestion === objKeys.length) {
+				$("#questions-page").hide();
+				$("#totals-page").show();
+				$("#total-correct").html(correctTotal);
+				$("#total-incorrect").html(incorrectTotal);
+				$("#total-unanswered").html(unAnswered);
+			}
+			else {
+				triviaGame.startQuiz();
+			}
+		}, 5000);
+	},
+	startOver: function() {
+		correctTotal = 0;
+		incorrectTotal = 0;
+		unAnswered = 0;
+		currentQuestion = 0;
+		$("#totals-page").hide();
+		$("#questions-page").show();
+		triviaGame.startQuiz();
 	}
 };
 
 triviaGame.startPage();
-$("#start-btn").on("click", triviaGame.startQuiz);
+$("#start-btn").on("click", function() {
+	currentQuestion = 0;
+	$("#start-page").hide();
+	$("#questions-page").show();
+	triviaGame.startQuiz();
+});
+$("#start-over-btn").on("click", triviaGame.startOver);
 
 });
 
